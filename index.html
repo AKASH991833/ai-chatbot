@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nova Chatbot - On-Device AI Chat with Intent Matching</title>
+<meta name="description" content="Chat with Nova, a fully on-device chatbot. TF-IDF intent matching, built-in calculator, jokes, time, small talk and per-reply confidence. Free, offline, no sign-up.">
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#0f2145">
+<link rel="stylesheet" href="design.css">
+<style>
+.chat-wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.chat-box{display:flex;flex-direction:column;gap:12px;min-height:380px;max-height:56vh;overflow-y:auto;padding:4px 2px}
+.msg{max-width:82%;padding:11px 15px;border-radius:16px;font-size:.94rem;line-height:1.55;animation:msgIn .25s ease;white-space:pre-wrap}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.msg.bot{align-self:flex-start;background:var(--bg-soft);border:1px solid var(--line);border-bottom-left-radius:5px}
+.msg.user{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:5px}
+.msg .meta{display:block;font-size:.68rem;opacity:.65;margin-top:5px;font-weight:600}
+.conf{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:.7rem;font-weight:700;color:var(--ink-faint)}
+.conf .bar{width:56px;height:5px;border-radius:99px;background:var(--line);overflow:hidden;display:inline-block}
+.conf .bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.typing{display:inline-flex;gap:4px;padding:4px 2px}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--ink-faint);animation:blink 1.2s infinite}
+.typing i:nth-child(2){animation-delay:.2s}.typing i:nth-child(3){animation-delay:.4s}
+@keyframes blink{0%,60%,100%{opacity:.25}30%{opacity:1}}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.input-bar{display:flex;gap:10px}
+.input-bar .input{flex:1;border-radius:14px;padding:13px 16px}
+.send-btn{border-radius:14px;padding:0 20px}
+</style>
+</head>
+<body>
+<header class="app-header"><div class="header-inner">
+  <div class="brand"><span class="brand-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.8-.3-4-.9L3 20l1-4.9a8.5 8.5 0 1 1 17-3.6z"/></svg></span>Nova Chatbot</div>
+  <div class="header-spacer"></div>
+  <button class="icon-btn" id="exportBtn" title="Export chat" aria-label="Export chat"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg></button>
+  <button class="icon-btn" id="clearBtn" title="Clear chat" aria-label="Clear chat"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4h8v2m-9 0 1 14h8l1-14"/></svg></button>
+  <button class="icon-btn" onclick="toggleTheme()" title="Dark / light mode" aria-label="Toggle dark mode"><svg class="moon-i" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z"/></svg><svg class="sun-i" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"/><path d="M12 2v2.4M12 19.6V22M4.9 4.9l1.7 1.7M17.4 17.4l1.7 1.7M2 12h2.4M19.6 12H22M4.9 19.1l1.7-1.7M17.4 6.6l1.7-1.7"/></svg></button>
+</div></header>
+<main class="app-main">
+  <div class="hero" style="text-align:center;margin-left:auto;margin-right:auto">
+    <h1>Meet <span class="accent-word">Nova</span>, your on-device chatbot</h1>
+    <p style="margin-left:auto;margin-right:auto">Nova understands ~25 intents using TF-IDF similarity, can do math, tell jokes, remember your name for the session, and shows how confident it is in every reply. No server, no account.</p>
+  </div>
+  <div class="chat-wrap">
+    <div class="card" style="padding:18px">
+      <div class="chat-box" id="chat" aria-live="polite"></div>
+      <div style="height:12px"></div>
+      <div class="chips" id="chips"></div>
+      <div style="height:12px"></div>
+      <div class="input-bar">
+        <input class="input" id="inp" placeholder="Ask Nova anything… try 'what is 12% of 850'" autocomplete="off" aria-label="Message">
+        <button class="btn btn-primary send-btn" id="sendBtn" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 11 18-8-8 18-2.5-7.5z"/></svg></button>
+      </div>
+    </div>
+    <div class="note"><b>Honest limits:</b> Nova is a classic intent-matching chatbot, not a large language model. It answers what it was trained for and says "I'm not sure" instead of making things up.</div>
+  </div>
+</main>
+<footer class="app-footer">Nothing leaves your browser · <a href="https://github.com/AKASH991833/ai-chatbot" rel="noopener">Source on GitHub</a></footer>
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
