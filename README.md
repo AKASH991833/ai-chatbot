@@ -4,7 +4,7 @@ A friendly chatbot that runs completely in your browser. It understands about 25
 
 **Live demo: https://akash991833.github.io/ai-chatbot/**
 
-![Chat](docs/screenshot-desktop.png)
+![Chat](screenshots/desktop-light.png)
 
 ## Features
 
@@ -16,7 +16,7 @@ A friendly chatbot that runs completely in your browser. It understands about 25
 - **Suggestion chips, typing indicator, timestamps, chat export, clear chat.**
 - **Dark and light mode**, mobile friendly, installable PWA, works offline.
 
-![Mobile](docs/screenshot-mobile.png)
+![Mobile](screenshots/mobile-light.png)
 
 ## Honest limits
 
