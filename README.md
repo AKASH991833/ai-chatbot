@@ -31,3 +31,19 @@ Vanilla HTML/CSS/JS. The whole brain (TF-IDF engine, intents, entities) is one r
 ```bash
 python3 -m http.server 8000
 ```
+
+---
+
+## 🐍 Python version (real ML backend) - `python-app/`
+
+The browser demo above is fully client-side. This folder is the **pro-grade version** with a real training pipeline on real data:
+
+A real neural conversation model (DialoGPT, 124M parameters) with multi-turn memory and creativity controls, running entirely on CPU. Stack: Python, Gradio, Transformers.
+
+```bash
+cd python-app
+pip install -r requirements.txt
+python app.py
+```
+
+Deploy free on **Hugging Face Spaces** (no card): create a Space, upload the `python-app/` folder - it ships Space-ready (`sdk` + `app_file` already set in its README).
